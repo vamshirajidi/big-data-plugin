@@ -49,8 +49,7 @@ define([
       vm.securityTypeLabel = i18n.get('security.type.label');
       vm.helpLink = i18n.get('security.help');
 
-      if (!vm.data.model.securityType ||
-        (vm.data.model.securityType === vm.securityType.KNOX && vm.data.model.shimVendor !== "Hortonworks")) {
+      if (!vm.data.model.securityType) {
         vm.data.model.securityType = vm.securityType.NONE;
       }
       vm.buttons = getButtons();
