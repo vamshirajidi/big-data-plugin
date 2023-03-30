@@ -1241,13 +1241,8 @@ public class HBaseInputDialog extends BaseStepDialog implements StepDialogInterf
 
     String coreConf = "";
     String defaultConf = "";
-    String zookeeperHosts = "";
 
-    NamedCluster nc = namedClusterWidget.getSelectedNamedCluster();
     HBaseService hBaseService = getHBaseService();
-    if ( nc != null ) {
-      zookeeperHosts = transMeta.environmentSubstitute( nc.getZooKeeperHost() );
-    }
 
     if ( !Const.isEmpty( m_coreConfigText.getText() ) ) {
       coreConf = transMeta.environmentSubstitute( m_coreConfigText.getText() );
@@ -1257,10 +1252,21 @@ public class HBaseInputDialog extends BaseStepDialog implements StepDialogInterf
       defaultConf = transMeta.environmentSubstitute( m_defaultConfigText.getText() );
     }
 
-    if ( Const.isEmpty( zookeeperHosts ) && Const.isEmpty( coreConf ) && Const.isEmpty( defaultConf ) ) {
-      throw new IOException( BaseMessages.getString( HBaseInputMeta.PKG,
-        "MappingDialog.Error.Message.CantConnectNoConnectionDetailsProvided" ) );
-    }
+    //    NamedCluster nc = namedClusterWidget.getSelectedNamedCluster();
+    //    Removing this validation from here because knox doesn't need this validation here.
+    //    And all the validations will be done at connection level.
+    //    If something is not found the connection pool or connection will throw an error.
+
+    //    String zookeeperHosts = "";
+    //    if ( nc != null ) {
+    //      zookeeperHosts = transMeta.environmentSubstitute( nc.getZooKeeperHost() );
+    //    }
+
+    //    if ( Const.isEmpty( zookeeperHosts ) && Const.isEmpty( coreConf ) && Const.isEmpty( defaultConf ) ) {
+    //      throw new IOException( BaseMessages.getString( HBaseInputMeta.PKG,
+    //        "MappingDialog.Error.Message.CantConnectNoConnectionDetailsProvided" ) );
+    //    }
+
     return hBaseService.getHBaseConnection( transMeta, coreConf, defaultConf, null );
   }
 
